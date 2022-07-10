@@ -1,24 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import SideBar from "./components/SideBar";
+import Dashboard from "./components/Dashboard";
+import Footer from "./components/Footer";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import CreateUser from "./components/CreateUser";
+import EditUser from "./components/EditUser";
+import Profile from "./components/Profile";
+import Account from "./components/Account";
 
 function App() {
+  let data = {
+    monthly: 40000,
+    yearly: 480000,
+    task: 20,
+    pending: 10,
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div id="wrapper">
+        <BrowserRouter>
+        <SideBar />
+        <div id="content-wrapper" className="d-flex flex-column">
+          {/* <!-- Main Content --> */}
+          <div id="content">
+            <Routes>
+              <Route path="/dashboard" element={<Dashboard data={data}/>}>
+                <Route path="profile" element={<Profile/>}/>
+                <Route path="account" element={<Account/>}/>
+              </Route>
+              <Route path="/add-user" element={<CreateUser/>}/>
+              <Route path="/edit-user/:id" element={<EditUser/>}/>
+              <Route path="*" element={<Navigate to="/dashboard"/>}/>
+            </Routes>
+            
+          </div>
+
+          {/* <!-- Footer -->/ */}
+          <Footer />
+          {/* <!-- End of Footer --> */}
+        </div>
+        </BrowserRouter>
+      </div>
+    </>
   );
 }
 
