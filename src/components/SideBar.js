@@ -51,15 +51,6 @@ function SideBar() {
 
             </Link>
           </li>
-          <li className="nav-item active">
-          <Link to="/edit-user/5?name=Vimal">
-                <div className="nav-link">
-                    <i class="fa-solid fa-user-pen"></i>
-                    <span>Edit user</span>
-                </div>
-
-            </Link>
-          </li>
         </ul>
       </div>
     </>

@@ -7,6 +7,7 @@ import CreateUser from "./components/CreateUser";
 import EditUser from "./components/EditUser";
 import Profile from "./components/Profile";
 import Account from "./components/Account";
+import {useState} from 'react'
 
 function App() {
   let data = {
@@ -15,6 +16,32 @@ function App() {
     task: 20,
     pending: 10,
   };
+  let [user,setUser] = useState([
+    {
+      firstName:"Adhiban",
+      lastName:"Madhav",
+      email:"adhiban.madhav@gmail.com",
+      mobile:"1234564789",
+      dob:"12-09-2010",
+      location:"Chennai"
+    },
+    {
+      firstName:"Srikanth",
+      lastName:"Kureshi",
+      email:"srikanth.kureshi@gmail.com",
+      mobile:"5689237415",
+      dob:"12-09-2010",
+      location:"Bangalore"
+    },
+    {
+      firstName:"Nelson",
+      lastName:"Manikam",
+      email:"nelson.manikam@gmail.com",
+      mobile:"4578126935",
+      dob:"12-09-2005",
+      location:"Hyedrabad"
+    }
+  ])
 
   return (
     <>
@@ -25,12 +52,12 @@ function App() {
           {/* <!-- Main Content --> */}
           <div id="content">
             <Routes>
-              <Route path="/dashboard" element={<Dashboard data={data}/>}>
+              <Route path="/dashboard" element={<Dashboard data={{data, user, setUser}}/>}>
                 <Route path="profile" element={<Profile/>}/>
                 <Route path="account" element={<Account/>}/>
               </Route>
-              <Route path="/add-user" element={<CreateUser/>}/>
-              <Route path="/edit-user/:id" element={<EditUser/>}/>
+              <Route path="/add-user" element={<CreateUser data={{user, setUser}}/>}/>
+              <Route path="/edit-user/:id" element={<EditUser data={{user, setUser}}/>}/>
               <Route path="*" element={<Navigate to="/dashboard"/>}/>
             </Routes>
             
