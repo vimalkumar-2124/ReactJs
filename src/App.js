@@ -7,9 +7,11 @@ import CreateUser from "./components/CreateUser";
 import EditUser from "./components/EditUser";
 import Profile from "./components/Profile";
 import Account from "./components/Account";
-import {useState} from 'react'
+import React, {useState} from 'react';
 
+export const UserContext = React.createContext()
 function App() {
+  
   let data = {
     monthly: 40000,
     yearly: 480000,
@@ -47,26 +49,29 @@ function App() {
     <>
       <div id="wrapper">
         <BrowserRouter>
-        <SideBar />
-        <div id="content-wrapper" className="d-flex flex-column">
-          {/* <!-- Main Content --> */}
-          <div id="content">
-            <Routes>
-              <Route path="/dashboard" element={<Dashboard data={{data, user, setUser}}/>}>
-                <Route path="profile" element={<Profile/>}/>
-                <Route path="account" element={<Account/>}/>
-              </Route>
-              <Route path="/add-user" element={<CreateUser data={{user, setUser}}/>}/>
-              <Route path="/edit-user/:id" element={<EditUser data={{user, setUser}}/>}/>
-              <Route path="*" element={<Navigate to="/dashboard"/>}/>
-            </Routes>
-            
-          </div>
+        <UserContext.Provider value={{user, setUser}}>
 
-          {/* <!-- Footer -->/ */}
-          <Footer />
-          {/* <!-- End of Footer --> */}
-        </div>
+          <SideBar />
+          <div id="content-wrapper" className="d-flex flex-column">
+            {/* <!-- Main Content --> */}
+            <div id="content">
+              <Routes>
+                <Route path="/dashboard" element={<Dashboard data={{data}}/>}>
+                  <Route path="profile" element={<Profile/>}/>
+                  <Route path="account" element={<Account/>}/>
+                </Route>
+                <Route path="/add-user" element={<CreateUser data={{user, setUser}}/>}/>
+                <Route path="/edit-user/:id" element={<EditUser data={{user, setUser}}/>}/>
+                <Route path="*" element={<Navigate to="/dashboard"/>}/>
+              </Routes>
+              
+            </div>
+
+            {/* <!-- Footer -->/ */}
+            <Footer />
+            {/* <!-- End of Footer --> */}
+          </div>
+        </UserContext.Provider>
         </BrowserRouter>
       </div>
     </>
