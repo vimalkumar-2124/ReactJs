@@ -8,6 +8,7 @@ import EditUser from "./components/EditUser";
 import Profile from "./components/Profile";
 import Account from "./components/Account";
 import React, {useState} from 'react';
+import HooksDemo from "./components/HooksDemo";
 
 export const UserContext = React.createContext()
 function App() {
@@ -62,6 +63,7 @@ function App() {
                 </Route>
                 <Route path="/add-user" element={<CreateUser data={{user, setUser}}/>}/>
                 <Route path="/edit-user/:id" element={<EditUser data={{user, setUser}}/>}/>
+                <Route path="/hooks-demo" element={<HooksDemo/>}/>
                 <Route path="*" element={<Navigate to="/dashboard"/>}/>
               </Routes>
               

@@ -51,6 +51,16 @@ function SideBar() {
 
             </Link>
           </li>
+          <hr className="sidebar-divider" />
+          <li className="nav-item active">
+            <Link to="/hooks-demo">
+                <div className="nav-link">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <span>HooksReducerDemo</span>
+                </div>
+
+            </Link>
+          </li>
         </ul>
       </div>
     </>
