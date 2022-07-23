@@ -7,10 +7,14 @@ import CreateUser from "./components/CreateUser";
 import EditUser from "./components/EditUser";
 import Profile from "./components/Profile";
 import Account from "./components/Account";
-import React, {useState} from 'react';
+import React from 'react';
 import HooksDemo from "./components/HooksDemo";
+// import axios from 'axios'; // to fetch datas, it will automatically converts data to JSON
 
-export const UserContext = React.createContext()
+
+// http://student-mentor-mgmt-sys-fe.herokuapp.com/home
+// export const UserContext = React.createContext()
+export const url = 'https://62dc2a5e57ac3c3f3c573ebb.mockapi.io/students'
 function App() {
   
   let data = {
@@ -19,38 +23,32 @@ function App() {
     task: 20,
     pending: 10,
   };
-  let [user,setUser] = useState([
-    {
-      firstName:"Adhiban",
-      lastName:"Madhav",
-      email:"adhiban.madhav@gmail.com",
-      mobile:"1234564789",
-      dob:"12-09-2010",
-      location:"Chennai"
-    },
-    {
-      firstName:"Srikanth",
-      lastName:"Kureshi",
-      email:"srikanth.kureshi@gmail.com",
-      mobile:"5689237415",
-      dob:"12-09-2010",
-      location:"Bangalore"
-    },
-    {
-      firstName:"Nelson",
-      lastName:"Manikam",
-      email:"nelson.manikam@gmail.com",
-      mobile:"4578126935",
-      dob:"12-09-2005",
-      location:"Hyedrabad"
-    }
-  ])
+  // let [user,setUser] = useState([])
+  
+
+  //useEffect will be synchoronous, we can't use async to fetch datas
+  // useEffect(() => {
+
+
+  // })
+  //it will trigger each and every time state change/re-render
+
+  // useEffect(()=>{
+  //   getData()
+  // }, [])//it will trigger only one time when we select component
+  // const getData = async () => {
+  //   let res = await axios.get(url)
+  //   setUser(res.data)
+  // }
+  // useEffect(()=>{
+
+  // },[anyvalues])
 
   return (
     <>
       <div id="wrapper">
         <BrowserRouter>
-        <UserContext.Provider value={{user, setUser}}>
+        {/* <UserContext.Provider value={{user, setUser}}> */}
 
           <SideBar />
           <div id="content-wrapper" className="d-flex flex-column">
@@ -61,8 +59,8 @@ function App() {
                   <Route path="profile" element={<Profile/>}/>
                   <Route path="account" element={<Account/>}/>
                 </Route>
-                <Route path="/add-user" element={<CreateUser data={{user, setUser}}/>}/>
-                <Route path="/edit-user/:id" element={<EditUser data={{user, setUser}}/>}/>
+                <Route path="/add-user" element={<CreateUser/>}/>
+                <Route path="/edit-user/:id" element={<EditUser />}/>
                 <Route path="/hooks-demo" element={<HooksDemo/>}/>
                 <Route path="*" element={<Navigate to="/dashboard"/>}/>
               </Routes>
@@ -73,7 +71,7 @@ function App() {
             <Footer />
             {/* <!-- End of Footer --> */}
           </div>
-        </UserContext.Provider>
+        {/* </UserContext.Provider> */}
         </BrowserRouter>
       </div>
     </>

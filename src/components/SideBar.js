@@ -45,7 +45,7 @@ function SideBar() {
           <li className="nav-item active">
             <Link to="/add-user">
                 <div className="nav-link">
-                    <i class="fa-solid fa-user-plus"></i>
+                    <i className="fa-solid fa-user-plus"></i>
                     <span>Add user</span>
                 </div>
 
@@ -55,7 +55,7 @@ function SideBar() {
           <li className="nav-item active">
             <Link to="/hooks-demo">
                 <div className="nav-link">
-                    <i class="fa-solid fa-user-plus"></i>
+                    <i className="fa-solid fa-user-plus"></i>
                     <span>HooksReducerDemo</span>
                 </div>
 

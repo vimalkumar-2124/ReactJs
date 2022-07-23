@@ -1,23 +1,38 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {useNavigate} from 'react-router-dom';
-import { useContext } from 'react';
-import { UserContext } from '../App';
+import axios from 'axios'
+import { url } from './../App'
+// import { useContext } from 'react';
+// import { UserContext } from '../App';
 
 export default function EditUser(props) {
   let params = useParams();
-  let context = useContext(UserContext)
-  let [firstName,setFName] = useState(context.user[params.id].firstName)
-  let [lastName,setLName] = useState(context.user[params.id].lastName)
-  let [email,setEmail] = useState(context.user[params.id].email)
-  let [dob,setDOB] = useState(context.user[params.id].dob)
-  let [mobile,setMobile] = useState(context.user[params.id].mobile)
-  let [location,setLocation] = useState(context.user[params.id].location)
+  // let context = useContext(UserContext)
+  let [firstName,setFName] = useState("")
+  let [lastName,setLName] = useState("")
+  let [email,setEmail] = useState("")
+  let [dob,setDOB] = useState("")
+  let [mobile,setMobile] = useState("")
+  let [location,setLocation] = useState("")
 
   let navigate = useNavigate()
-  let handleSubmit = ()=>{
+  useEffect(()=>{
+    getData()
+}, [])//it will trigger only one time when we select component
+const getData = async () => {
+    let res = await axios.get(`${url}/${params.id}`)
+    setFName(res.data.firstName)
+    setLName(res.data.lastName)
+    setDOB(res.data.dob)
+    setMobile(res.data.mobile)
+    setEmail(res.data.email)
+    setLocation(res.data.location)
+    
+}
+  let handleSubmit = async ()=>{
     let data = {
       firstName,
       lastName,
@@ -26,12 +41,14 @@ export default function EditUser(props) {
       mobile,
       location
     }
-    let user = [...context.user]
+    // let user = [...context.user]
 
-    user.splice(params.id,1,data)
+    // user.splice(params.id,1,data)
 
-    context.setUser(user)
-    navigate('/dashboard')
+    // context.setUser(user)
+    let res = await axios.put(`${url}/${params.id}`, data)
+    if(res.status===200)
+      navigate('/dashboard')
     
   }
   return<div>

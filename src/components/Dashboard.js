@@ -1,17 +1,31 @@
-import React, {useContext} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Link, Outlet, useNavigate} from 'react-router-dom'
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
-import {UserContext} from './../App'
+import { url } from './../App'
+import axios from 'axios'
+// import {UserContext} from './../App'
 function Dashboard(props) {
     let navigate = useNavigate()
-    let context = useContext(UserContext)
-    let handleDelete = (i) => {
-        let data = [...context.user]
-        data.splice(i,1)
-        context.setUser(data)
+    // let context = useContext(UserContext)
+    let [user,setUser] = useState([])
+  
+    useEffect(()=>{
+        getData()
+    }, [])//it will trigger only one time when we select component
+    const getData = async () => {
+        let res = await axios.get(url)
+        setUser(res.data)
+    }
+    let handleDelete = async(i) => {
+        // let data = [...context.user]
+        // data.splice(i,1)
+        // context.setUser(data)
+        let res = await axios.delete(`${url}/${i}`)
+        if(res.status === 200)
+            getData()
     }
   return <>
     <div className="container-fluid">
@@ -127,9 +141,9 @@ function Dashboard(props) {
       </thead>
       <tbody>
             {
-                context.user.map((e,i)=>{
-                    return <tr>
-                        <td>{i+1}</td>
+                user.map((e,id)=>{
+                    return <tr key={id}>
+                        <td>{id+1}</td>
                         <td>{e.firstName}</td>
                         <td>{e.lastName}</td>
                         <td>{e.email}</td>
@@ -137,10 +151,10 @@ function Dashboard(props) {
                         <td>{e.dob}</td>
                         <td>{e.location}</td>
                         <td>
-                            <Button variant='primary' onClick={()=>navigate(`/edit-user/${i}`)}> <EditIcon/> Edit</Button>
+                            <Button variant='primary' onClick={()=>navigate(`/edit-user/${e.id}`)}> <EditIcon/> Edit</Button>
                             &nbsp;
                             &nbsp;
-                            <Button variant='danger' onClick={()=>handleDelete(i)}><DeleteForeverIcon/> Delete</Button>
+                            <Button variant='danger' onClick={()=>handleDelete(e.id)}><DeleteForeverIcon/> Delete</Button>
                         </td>
                     </tr>
                 })
