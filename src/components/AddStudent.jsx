@@ -1,20 +1,26 @@
-import React,{useState, useContext} from 'react'
+import React,{useState} from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate} from 'react-router-dom'
-import { StudentContext } from './../App'
+// import { StudentContext } from './../App'
+import axios from 'axios'
+import { student_url } from '../App';
 
 export default function AddStudent() {
     let [name, setName] = useState([])
     let navigate = useNavigate()
-    let context = useContext(StudentContext)
+    // let context = useContext(StudentContext)
     
-let handleSubmit = () => {
+let handleSubmit = async() => {
     let data = {name}
-    let student = [...context.studentName]
-    student.push(data)
-    context.setStudentName(student)
-    navigate('/all-students')
+    // let student = [...context.studentName]
+    // student.push(data)
+    // context.setStudentName(student)
+    
+  let res = await axios.post(student_url, data)
+  
+    if(res.status === 201)
+        navigate('/all-students')
 }
 
 

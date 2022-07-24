@@ -1,20 +1,22 @@
-import React,{useState, useContext} from 'react'
+import React,{useState} from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate} from 'react-router-dom'
-import { MentorContext } from '../App';
-
+import { mentor_url } from '../App';
+import axios from 'axios';
 export default function AddMentor() {
     let [name, setName] = useState([])
     let navigate = useNavigate()
-    let context = useContext(MentorContext)
+    // let context = useContext(MentorContext)
     
-let handleSubmit = () => {
+let handleSubmit = async() => {
     let data = {name}
-    let mentor = [...context.mentorName]
-    mentor.push(data)
-    context.setMentorName(mentor)
-    navigate('/all-mentors')
+    // let mentor = [...context.mentorName]
+    // mentor.push(data)
+    // context.setMentorName(mentor)
+    let res = await axios.post(mentor_url, data)
+    if(res.status === 201)
+        navigate('/all-mentors')
 }
 
 

@@ -1,5 +1,5 @@
 import './App.css';
-import React,{ useState } from 'react'
+import React from 'react'
 import NavBar from './components/NavBar';
 import Home from './components/Home';
 import { BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
@@ -14,23 +14,25 @@ import EditStudent from './components/EditStudent';
 import EditMentor from './components/EditMentor';
 
 
-export const StudentContext = React.createContext()
-export const MentorContext = React.createContext()
+// export const StudentContext = React.createContext()
+// export const MentorContext = React.createContext()
+export const student_url = 'https://62dc2a5e57ac3c3f3c573ebb.mockapi.io/students'
+export const mentor_url = 'https://62dc2a5e57ac3c3f3c573ebb.mockapi.io/mentors'
 function App() {
-  let [studentName, setStudentName] = useState([
-    {name:"Vimal"},
-    {name:"Kumar"},
+  // let [studentName, setStudentName] = useState([
+  //   {name:"Vimal"},
+  //   {name:"Kumar"},
     
-  ])
-  let [mentorName, setMentorName] = useState([
-    {name:'Raja'},
-    {name:'Arunprasath'},
-    {name:'Rakesh'}
-  ])
+  // ])
+  // let [mentorName, setMentorName] = useState([
+  //   {name:'Raja'},
+  //   {name:'Arunprasath'},
+  //   {name:'Rakesh'}
+  // ])
     return <>
   <BrowserRouter>
-  <StudentContext.Provider value={{studentName, setStudentName}}>
-  <MentorContext.Provider value={{mentorName, setMentorName}}>
+  {/* <StudentContext.Provider value={{studentName, setStudentName}}> */}
+  {/* <MentorContext.Provider value={{mentorName, setMentorName}}> */}
 
   <NavBar/>
   <div>
@@ -48,8 +50,8 @@ function App() {
       <Route path="*" element={<Navigate to="/home"/>}/>
     </Routes>
   </div>
-  </MentorContext.Provider>
-  </StudentContext.Provider>
+  {/* </MentorContext.Provider> */}
+  {/* </StudentContext.Provider> */}
   </BrowserRouter>
   
   </>

@@ -1,21 +1,31 @@
-import React, {useContext, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import { MentorContext } from '../App';
+import { mentor_url } from '../App';
+import axios from 'axios';
 
 export default function EditMentor() {
     let params = useParams()
-    let context = useContext(MentorContext)
-    let [name, setName] = useState(context.mentorName[params.id].name)
+    // let context = useContext(MentorContext)
+    let [name, setName] = useState("")
     let navigate = useNavigate()
-    let handleSubmit =() => {
+    useEffect(() => {
+      getData()
+    }, [])
+    const getData = async() => {
+      let res = await axios.get(`${mentor_url}/${params.id}`)
+      setName(res.data.name)
+  }
+    let handleSubmit =async() => {
         
         let data = {name}
-        let mentor = [...context.mentorName]
-        mentor.splice(params.id, 1 , data)
-        context.setMentorName(mentor)
-        navigate('/all-mentors')
+        // let mentor = [...context.mentorName]
+        // mentor.splice(params.id, 1 , data)
+        // context.setMentorName(mentor)
+        let res = await axios.put(`${mentor_url}/${params.id}`, data)
+        if(res.status === 200)
+          navigate('/all-mentors')
     }
     let handleCancel = () => {
         navigate('/all-mentors')

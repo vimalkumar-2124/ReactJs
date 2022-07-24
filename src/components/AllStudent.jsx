@@ -1,18 +1,33 @@
-import React, {useContext} from 'react'
+import React, { useEffect, useState} from 'react'
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate } from 'react-router-dom'
-import { StudentContext } from './../App'
+// import { StudentContext } from './../App'
+import { student_url } from '../App';
+import axios from 'axios';
 
 export default function AllStudent() {
 let navigate = useNavigate()
-let context = useContext(StudentContext)
-let handleDelete = (i) =>{
-    let data = [...context.studentName]
-    data.splice(i,1)
-    context.setStudentName(data)
+// let context = useContext(StudentContext)
+let [studentName, setStudentName] = useState([])
+useEffect(() =>{
+    getData()
+}, [])
+
+const getData = async() => {
+    let res = await axios.get(student_url)
+    setStudentName(res.data)
+
+}
+let handleDelete = async(id) =>{
+    // let data = [...context.studentName]
+    // data.splice(i,1)
+    // context.setStudentName(data)
+    let res = await axios.delete(`${student_url}/${id}`)
+    if(res.status === 200)
+        getData()
 }
   return <>
   <Table  bordered>
@@ -25,15 +40,15 @@ let handleDelete = (i) =>{
       </thead>
       <tbody>
             {
-                context.studentName.map((e,i)=>{
-                    return <tr className='home' key={i}>
-                        <td>{i+1}</td>
+                studentName.map((e,id)=>{
+                    return <tr className='home' key={id}>
+                        <td>{id + 1}</td>
                         <td >{e.name}</td>
                         <td>
-                            <Button variant='primary' onClick={()=>navigate(`/edit-student/${i}`)}> <EditIcon/></Button>
+                            <Button variant='primary' onClick={()=>navigate(`/edit-student/${e.id}`)}> <EditIcon/></Button>
                             &nbsp;
                             &nbsp;
-                            <Button variant='danger' onClick={()=>handleDelete(i)}><DeleteForeverIcon/></Button>
+                            <Button variant='danger' onClick={()=>handleDelete(e.id)}><DeleteForeverIcon/></Button>
                         </td>
                     </tr>
                 })
